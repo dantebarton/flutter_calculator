@@ -19,8 +19,8 @@ class _CalculatorButtonState extends State<CalculatorButton> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.1,
-      color: Colors.redAccent,
+      height: MediaQuery.of(context).size.height * 0.1 * widget.buttonHeight,
+      color: widget.buttonColor,
       child: FlatButton(
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(0.0),
@@ -29,7 +29,7 @@ class _CalculatorButtonState extends State<CalculatorButton> {
           padding: EdgeInsets.all(16.0),
           onPressed: null,
           child: Text(
-            "C",
+            widget.buttonText,
             style: TextStyle(
                 fontSize: 30.0,
                 fontWeight: FontWeight.normal,

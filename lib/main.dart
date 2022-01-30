@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:window_size/window_size.dart';
+import 'package:flutter_calculator/widgets/widgets.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -65,7 +66,14 @@ class _SimpleCalculatorState extends State<SimpleCalculator> {
               Container(
                 width: MediaQuery.of(context).size.width * .75,
                 child: Table(
-                  children: [TableRow(children: [])],
+                  children: [
+                    TableRow(children: [
+                      CalculatorButton(
+                          buttonText: 'C',
+                          buttonHeight: 1,
+                          buttonColor: Colors.redAccent)
+                    ])
+                  ],
                 ),
               )
             ],
