@@ -175,7 +175,7 @@ class _SimpleCalculatorState extends State<SimpleCalculator> {
                       BuildButton(
                           buttonText: "=",
                           buttonHeight: 2,
-                          buttonColor: Colors.redAccent,
+                          buttonColor: Colors.red,
                           onTap: () => calculateResult())
                     ])
                   ],
