@@ -73,70 +73,70 @@ class _SimpleCalculatorState extends State<SimpleCalculator> {
                           buttonText: "÷",
                           buttonHeight: 1,
                           buttonColor: Colors.blue,
-                          onTap: () => operatorPressed("÷")),
+                          onTap: () => _operatorPressed("÷")),
                     ]),
                     TableRow(children: [
                       BuildButton(
                           buttonText: "7",
                           buttonHeight: 1,
                           buttonColor: Colors.black54,
-                          onTap: () => numberPressed(7)),
+                          onTap: () => _numberPressed(7)),
                       BuildButton(
                           buttonText: "8",
                           buttonHeight: 1,
                           buttonColor: Colors.black54,
-                          onTap: () => numberPressed(8)),
+                          onTap: () => _numberPressed(8)),
                       BuildButton(
                           buttonText: "9",
                           buttonHeight: 1,
                           buttonColor: Colors.black54,
-                          onTap: () => numberPressed(9)),
+                          onTap: () => _numberPressed(9)),
                     ]),
                     TableRow(children: [
                       BuildButton(
                           buttonText: "4",
                           buttonHeight: 1,
                           buttonColor: Colors.black54,
-                          onTap: () => numberPressed(4)),
+                          onTap: () => _numberPressed(4)),
                       BuildButton(
                           buttonText: "5",
                           buttonHeight: 1,
                           buttonColor: Colors.black54,
-                          onTap: () => numberPressed(5)),
+                          onTap: () => _numberPressed(5)),
                       BuildButton(
                           buttonText: "6",
                           buttonHeight: 1,
                           buttonColor: Colors.black54,
-                          onTap: () => numberPressed(6)),
+                          onTap: () => _numberPressed(6)),
                     ]),
                     TableRow(children: [
                       BuildButton(
                           buttonText: "1",
                           buttonHeight: 1,
                           buttonColor: Colors.black54,
-                          onTap: () => numberPressed(1)),
+                          onTap: () => _numberPressed(1)),
                       BuildButton(
                           buttonText: "2",
                           buttonHeight: 1,
                           buttonColor: Colors.black54,
-                          onTap: () => numberPressed(2)),
+                          onTap: () => _numberPressed(2)),
                       BuildButton(
                           buttonText: "3",
                           buttonHeight: 1,
                           buttonColor: Colors.black54,
-                          onTap: () => numberPressed(3)),
+                          onTap: () => _numberPressed(3)),
                     ]),
                     TableRow(children: [
                       BuildButton(
                           buttonText: ".",
                           buttonHeight: 1,
                           buttonColor: Colors.black54,
-                          onTap: () => operatorPressed(".")),
+                          onTap: () => _operatorPressed(".")),
                       BuildButton(
                           buttonText: "0",
                           buttonHeight: 1,
                           buttonColor: Colors.black54,
-                          onTap: () => numberPressed(0)),
+                          onTap: () => _numberPressed(0)),
                       BuildButton(
                           buttonText: "+/-",
                           buttonHeight: 1,
@@ -155,28 +155,28 @@ class _SimpleCalculatorState extends State<SimpleCalculator> {
                           buttonText: "×",
                           buttonHeight: 1,
                           buttonColor: Colors.blue,
-                          onTap: () => operatorPressed("×"))
+                          onTap: () => _operatorPressed("×"))
                     ]),
                     TableRow(children: [
                       BuildButton(
                           buttonText: "-",
                           buttonHeight: 1,
                           buttonColor: Colors.blue,
-                          onTap: () => operatorPressed("-"))
+                          onTap: () => _operatorPressed("-"))
                     ]),
                     TableRow(children: [
                       BuildButton(
                           buttonText: "+",
                           buttonHeight: 1,
                           buttonColor: Colors.blue,
-                          onTap: () => operatorPressed("+"))
+                          onTap: () => _operatorPressed("+"))
                     ]),
                     TableRow(children: [
                       BuildButton(
                           buttonText: "=",
                           buttonHeight: 2,
-                          buttonColor: Colors.red,
-                          onTap: () => calculateResult())
+                          buttonColor: Colors.redAccent,
+                          onTap: () => _calculateResult())
                     ])
                   ],
                 ),
@@ -193,11 +193,17 @@ class _SimpleCalculatorState extends State<SimpleCalculator> {
       if (result != null) {
         result == null;
         firstOperand = (firstOperand! * -1);
+        return;
+      }
+
+      if (firstOperand != null) {
+        firstOperand = (firstOperand! * -1);
+        return;
       }
     });
   }
 
-  operatorPressed(String operatorValue) {
+  _operatorPressed(String operatorValue) {
     setState(() {
       if (firstOperand == null) {
         firstOperand = 0;
@@ -206,7 +212,7 @@ class _SimpleCalculatorState extends State<SimpleCalculator> {
     });
   }
 
-  numberPressed(int number) {
+  _numberPressed(int number) {
     setState(() {
       if (result != null) {
         result = null;
@@ -230,7 +236,7 @@ class _SimpleCalculatorState extends State<SimpleCalculator> {
     });
   }
 
-  calculateResult() {
+  _calculateResult() {
     if (operator == null || secondOperand == null) {
       return;
     }
