@@ -22,9 +22,15 @@ class Calculator extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Simple Calculator',
         theme: ThemeData(primaryColor: Colors.blue),
-        home: Scaffold(
-          body: SimpleCalculator(),
-        ));
+        initialRoute: '/',
+        routes: {
+          '/': (context) => SimpleCalculator(),
+          '/second': (context) => const CalcHistory()
+        }
+        // home: Scaffold(
+        //   body: SimpleCalculator(),
+        // )
+        );
   }
 }
 
@@ -36,9 +42,11 @@ class SimpleCalculator extends StatefulWidget {
 }
 
 String? operator;
+String equation = "0";
 int? result;
 int? firstOperand;
 int? secondOperand;
+int? deleted;
 
 class _SimpleCalculatorState extends State<SimpleCalculator> {
   @override
@@ -128,10 +136,12 @@ class _SimpleCalculatorState extends State<SimpleCalculator> {
                     ]),
                     TableRow(children: [
                       BuildButton(
-                          buttonText: ".",
+                          buttonText: "H",
+                          buttonColor: Colors.redAccent,
                           buttonHeight: 1,
-                          buttonColor: Colors.black54,
-                          onTap: () => _operatorPressed(".")),
+                          onTap: () {
+                            Navigator.pushNamed(context, '/second');
+                          }),
                       BuildButton(
                           buttonText: "0",
                           buttonHeight: 1,
@@ -193,6 +203,11 @@ class _SimpleCalculatorState extends State<SimpleCalculator> {
       if (result != null) {
         result == null;
         firstOperand = (firstOperand! * -1);
+        return;
+      }
+
+      if (secondOperand != null) {
+        secondOperand = (secondOperand! * -1);
         return;
       }
 
@@ -274,20 +289,75 @@ class _SimpleCalculatorState extends State<SimpleCalculator> {
     });
   }
 
-  delete() {}
+  delete() {
+    setState(() {
+      deleted = 1;
+      equation = equation.substring(0, equation.length - 1);
+      if (equation.isEmpty) {
+        equation = '0';
+      }
+      if (secondOperand != null) {
+        if (equation.substring(equation.indexOf(operator!) + 1).isEmpty) {
+          secondOperand = null;
+        } else {
+          secondOperand =
+              int.tryParse(equation.substring(equation.indexOf(operator!) + 1));
+        }
+        return;
+      }
+      if (operator != null) {
+        operator = null;
+        return;
+      }
+      if (firstOperand != null) {
+        firstOperand = int.tryParse(equation);
+        return;
+      }
+    });
+  }
+
   String _getDisplayText() {
+    if (deleted != null) {
+      deleted = null;
+      return equation;
+    }
     if (result != null) {
-      return '$result';
+      equation = '$result';
+      return equation;
     }
     if (secondOperand != null) {
-      return '$firstOperand$operator$secondOperand';
+      equation = '$firstOperand$operator$secondOperand';
+      return equation;
     }
     if (operator != null) {
-      return '$firstOperand$operator';
+      equation = '$firstOperand$operator';
+      return equation;
     }
     if (firstOperand != null) {
-      return '$firstOperand';
+      equation = '$firstOperand';
+      return equation;
     }
-    return '0';
+
+    return equation = '0';
+  }
+}
+
+class CalcHistory extends StatelessWidget {
+  const CalcHistory({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text('History'),
+        ),
+        body: Center(
+          child: ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text('Go back!'),
+          ),
+        ));
   }
 }
