@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_calculator/Pages/history_page.dart';
 import 'package:window_size/window_size.dart';
 import 'package:flutter_calculator/widgets/widgets.dart';
 
@@ -22,15 +23,9 @@ class Calculator extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Simple Calculator',
         theme: ThemeData(primaryColor: Colors.blue),
-        initialRoute: '/',
-        routes: {
-          '/': (context) => SimpleCalculator(),
-          '/second': (context) => const CalcHistory()
-        }
-        // home: Scaffold(
-        //   body: SimpleCalculator(),
-        // )
-        );
+        home: Scaffold(
+          body: SimpleCalculator(),
+        ));
   }
 }
 
@@ -47,6 +42,10 @@ int? result;
 int? firstOperand;
 int? secondOperand;
 int? deleted;
+int indexResult = 0;
+
+List<String> equationList = <String>[];
+List<int> resultList = <int>[];
 
 class _SimpleCalculatorState extends State<SimpleCalculator> {
   @override
@@ -139,9 +138,7 @@ class _SimpleCalculatorState extends State<SimpleCalculator> {
                           buttonText: "H",
                           buttonColor: Colors.redAccent,
                           buttonHeight: 1,
-                          onTap: () {
-                            Navigator.pushNamed(context, '/second');
-                          }),
+                          onTap: () => _goToHistory()),
                       BuildButton(
                           buttonText: "0",
                           buttonHeight: 1,
@@ -196,6 +193,16 @@ class _SimpleCalculatorState extends State<SimpleCalculator> {
         ],
       ),
     );
+  }
+
+  _goToHistory() async {
+    indexResult = await Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => HistoryPage(
+              historyData: equationList,
+            )));
+    setState(() {
+      firstOperand = resultList[indexResult];
+    });
   }
 
   inverter() {
@@ -273,6 +280,9 @@ class _SimpleCalculatorState extends State<SimpleCalculator> {
           result = (firstOperand! ~/ secondOperand!);
           break;
       }
+      equationList.add(equation);
+      resultList.add(result!);
+      print(equationList);
       firstOperand = result;
       operator = null;
       secondOperand = null;
@@ -342,22 +352,22 @@ class _SimpleCalculatorState extends State<SimpleCalculator> {
   }
 }
 
-class CalcHistory extends StatelessWidget {
-  const CalcHistory({Key? key}) : super(key: key);
+// class CalcHistory extends StatelessWidget {
+//   const CalcHistory({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text('History'),
-        ),
-        body: Center(
-          child: ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: const Text('Go back!'),
-          ),
-        ));
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//         appBar: AppBar(
+//           title: const Text('History'),
+//         ),
+//         body: Center(
+//           child: ElevatedButton(
+//             onPressed: () {
+//               Navigator.pop(context);
+//             },
+//             child: const Text('Go back!'),
+//           ),
+//         ));
+//   }
+// }
